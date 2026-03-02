@@ -1,0 +1,27 @@
+---
+title: Overview
+description: Get started with Raydrift Meta SEO primitives.
+order: 0
+section: Getting Started
+---
+
+# Overview
+
+Raydrift Meta provides SEO‑first Astro components that generate metadata and JSON‑LD structured data. Use the primitives in your layouts and pages to ship consistent SEO output with minimal configuration.
+
+## Quick start
+
+```astro filename="BaseLayout.astro"
+import SEOHead from '@raydrift-meta/primitives/seo/SEOHead.astro';
+
+<head>
+  <SEOHead title="Raydrift Meta" description="Schema-first SEO" />
+</head>
+```
+
+## What you get
+
+- Structured data components that map directly to Schema.org types.
+- Centralized defaults for title, description, locale, and imagery.
+- Composable patterns for layouts, blog posts, and knowledge bases.
+- Astro‑first output with zero runtime JavaScript.

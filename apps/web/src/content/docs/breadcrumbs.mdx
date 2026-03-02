@@ -1,0 +1,46 @@
+---
+title: Breadcrumbs
+description: Render breadcrumbs and emit BreadcrumbList JSON-LD.
+order: 3
+section: SEO
+---
+
+# Breadcrumbs
+
+Render a visual breadcrumb trail and a matching `BreadcrumbList` JSON‑LD payload. Provide items in the order you want them displayed and indexed.
+
+## Usage
+
+```astro filename="docs/breadcrumbs.mdx"
+import Breadcrumbs from '@raydrift-meta/primitives/seo/Breadcrumbs.astro';
+
+<Breadcrumbs
+  items={[
+    { label: 'Docs', href: '/docs' },
+    { label: 'SEO', href: '/docs/seohead' },
+  ]}
+/>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `items` | `{ label: string; href: string }[]` | Required | Ordered list of breadcrumb labels and URLs. |
+
+## JSON‑LD example
+
+```json filename="breadcrumbs.json"
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Docs", "item": "/docs" },
+    { "@type": "ListItem", "position": 2, "name": "SEO", "item": "/docs/seohead" }
+  ]
+}
+```
+
+## Notes
+
+- The JSON‑LD output mirrors the visual breadcrumb order.

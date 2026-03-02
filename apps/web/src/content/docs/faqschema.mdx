@@ -1,0 +1,46 @@
+---
+title: FAQSchema
+description: Emit FAQPage JSON-LD structured data.
+order: 4
+section: SEO
+---
+
+# FAQSchema
+
+Emit `FAQPage` JSON‑LD structured data. Use this for FAQ sections or support pages where questions and answers are explicitly listed on the page.
+
+## Usage
+
+```astro filename="support.astro"
+import FAQSchema from '@raydrift-meta/primitives/seo/FAQSchema.astro';
+
+<FAQSchema
+  items={[{ question: 'Does this require JavaScript?', answer: 'No.' }]}
+/>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `items` | `{ question: string; answer: string }[]` | Required | Ordered list of FAQs. |
+
+## JSON‑LD example
+
+```json filename="faq.json"
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does this require JavaScript?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No." }
+    }
+  ]
+}
+```
+
+## Notes
+
+- Ensure the questions and answers rendered on the page match the JSON‑LD data to avoid validation issues.

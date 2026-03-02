@@ -1,0 +1,48 @@
+---
+title: Installation
+description: Install Raydrift Meta and scaffold the SEO configuration.
+order: 1
+section: Getting Started
+---
+
+# Installation
+
+Install the package, then scaffold the default configuration file. The init command creates `src/seo.config.ts` in your app.
+
+```bash filename="Terminal"
+npm install @raydrift-meta/primitives
+pnpm add @raydrift-meta/primitives
+yarn add @raydrift-meta/primitives
+bun add @raydrift-meta/primitives
+```
+
+```bash filename="Terminal"
+npx @raydrift-meta/primitives init
+pnpm dlx @raydrift-meta/primitives init
+yarn dlx @raydrift-meta/primitives init
+bunx @raydrift-meta/primitives init
+```
+
+If you skip the init command, create `src/seo.config.ts` manually and define your defaults.
+
+```ts filename="src/seo.config.ts"
+export const seoDefaults = {
+  siteName: 'Raydrift Meta',
+  description: 'A semantic component library for Astro.',
+  canonicalBase: 'https://raydrift-meta.com',
+  image: {
+    url: 'https://raydrift-meta.com/og/cover.png',
+    alt: 'Raydrift Meta SEO-first Astro components',
+    width: 1200,
+    height: 630,
+  },
+  locale: 'en_US',
+  type: 'website',
+  twitter: {
+    card: 'summary_large_image',
+    site: '@raydriftmeta',
+    creator: '@raydriftmeta',
+  },
+  noIndex: false,
+};
+```

@@ -1,0 +1,62 @@
+---
+title: SEOHead
+description: Generate SEO meta tags, OpenGraph data, and Twitter cards.
+order: 1
+section: SEO
+---
+
+# SEOHead
+
+Generate standard meta tags plus OpenGraph and Twitter metadata. Use it once per page, typically inside your base layout. It resolves defaults from `seo.config.ts` and accepts per‑page overrides.
+
+## Usage
+
+```astro filename="BaseLayout.astro"
+import SEOHead from '@raydrift-meta/primitives/seo/SEOHead.astro';
+
+<head>
+  <SEOHead
+    title="SEO-First Astro Components"
+    description="Schema elements for modern sites"
+    canonicalUrl="https://raydrift-meta.com/docs"
+  />
+</head>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `title` | `string` | Required | Primary title used across HTML, OpenGraph, and Twitter. |
+| `description` | `string` | `seoDefaults.description` | Meta description and social descriptions. |
+| `canonicalUrl` | `string` | Derived from `canonicalBase` + route | Explicit canonical URL. |
+| `siteName` | `string` | `seoDefaults.siteName` | OpenGraph site name. |
+| `image` | `{ url: string; alt?: string; width?: number; height?: number }` | `seoDefaults.image` | OpenGraph + Twitter image. |
+| `locale` | `string` | `seoDefaults.locale ?? 'en_US'` | OpenGraph locale. |
+| `type` | `'website' | 'article'` | `seoDefaults.type ?? 'website'` | OpenGraph type. |
+| `twitter` | `{ card?: 'summary' \| 'summary_large_image'; site?: string; creator?: string }` | `seoDefaults.twitter` | Twitter card defaults. |
+| `noIndex` | `boolean` | `seoDefaults.noIndex ?? false` | Sets `robots` to `noindex,nofollow`. |
+
+## Generated output
+
+```html filename="head"
+<title>SEO-First Astro Components</title>
+<meta name="description" content="Schema elements for modern sites" />
+<link rel="canonical" href="https://raydrift-meta.com/docs" />
+
+<meta property="og:title" content="SEO-First Astro Components" />
+<meta property="og:description" content="Schema elements for modern sites" />
+<meta property="og:url" content="https://raydrift-meta.com/docs" />
+<meta property="og:site_name" content="Raydrift Meta" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:image" content="https://raydrift-meta.com/og/cover.png" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@raydriftmeta" />
+<meta name="twitter:title" content="SEO-First Astro Components" />
+```
+
+## Notes
+
+- When `canonicalUrl` is not provided, the component builds one from `canonicalBase` and `Astro.url.pathname`. Set `canonicalBase` in your app to avoid empty canonical tags.

@@ -1,0 +1,16 @@
+---
+import DocsContentLayout from '@/layouts/DocsContentLayout.astro';
+import { getEntry } from 'astro:content';
+
+const entry = await getEntry('docs', 'index');
+
+if (!entry) {
+  throw new Error('Missing docs entry for overview');
+}
+
+const { Content } = await entry.render();
+---
+
+<DocsContentLayout title={entry.data.title} description={entry.data.description}>
+  <Content />
+</DocsContentLayout>

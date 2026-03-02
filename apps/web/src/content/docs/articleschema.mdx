@@ -1,0 +1,55 @@
+---
+title: ArticleSchema
+description: Emit Article JSON-LD structured data.
+order: 2
+section: SEO
+---
+
+# ArticleSchema
+
+Emit JSON‑LD for the Schema.org `Article` type. Use it for blog posts, long‑form content, or landing pages that represent a single article.
+
+## Usage
+
+```astro filename="blog/[slug].astro"
+import ArticleSchema from '@raydrift-meta/primitives/seo/ArticleSchema.astro';
+
+<ArticleSchema
+  slot="head"
+  headline={post.title}
+  authorName={post.author}
+  datePublished={post.publishedAt}
+  canonicalUrl={post.url}
+/>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `headline` | `string` | Required | Title of the article. |
+| `description` | `string` | Optional | Summary for the Article schema. |
+| `image` | `string \| string[]` | Optional | Primary image URL(s). |
+| `authorName` | `string \| string[]` | Required | One or more author names. |
+| `datePublished` | `string` | Required | ISO 8601 publish date. |
+| `dateModified` | `string` | Optional | ISO 8601 last update date. |
+| `publisherName` | `string` | Optional | Publisher organization name. |
+| `publisherLogo` | `string` | Optional | Publisher logo URL. |
+| `canonicalUrl` | `string` | Optional | Populates `mainEntityOfPage`. |
+
+## JSON‑LD example
+
+```json filename="article.json"
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "SEO-First Astro Components",
+  "author": [{ "@type": "Person", "name": "Raydrift Meta" }],
+  "datePublished": "2026-03-01",
+  "mainEntityOfPage": "https://raydrift-meta.com"
+}
+```
+
+## Notes
+
+- The component serializes JSON‑LD with `toJsonLd` and injects it into the document head.

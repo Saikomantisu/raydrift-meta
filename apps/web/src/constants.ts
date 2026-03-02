@@ -12,25 +12,26 @@ export const COPYRIGHT_TEXT = {
 };
 
 export const NAV_LINKS = [
-  { label: 'Docs', href: '#' },
-  { label: 'Features', href: '#features' },
-  { label: 'Primitives', href: '#' },
+  { label: 'Primitives', href: '/docs/primitives' },
+  { label: 'Features', href: '/#features' },
+  { label: 'Guides', href: '/docs' },
+  { label: 'GitHub', href: '#' },
 ] as const;
 
 export const FOOTER_LINK_GROUPS = [
   {
     title: 'Schema Elements',
     links: [
-      { label: 'SEOHead', href: '#' },
-      { label: 'ArticleSchema', href: '#' },
-      { label: 'Breadcrumb', href: '#' },
-      { label: 'FAQSchema', href: '#' },
+      { label: 'SEOHead', href: '/docs/seohead' },
+      { label: 'ArticleSchema', href: '/docs/articleschema' },
+      { label: 'Breadcrumb', href: '/docs/breadcrumbs' },
+      { label: 'FAQSchema', href: '/docs/faqschema' },
     ],
   },
   {
     title: 'Resources',
     links: [
-      { label: 'Documentation', href: '#' },
+      { label: 'Documentation', href: '/docs' },
       { label: 'GitHub Repository', href: '#' },
       { label: 'NPM Package', href: '#' },
       { label: 'Astro Integration', href: '#' },

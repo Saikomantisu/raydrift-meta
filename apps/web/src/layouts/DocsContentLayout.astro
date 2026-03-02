@@ -1,0 +1,488 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const currentPath = Astro.url.pathname;
+const entries = await getCollection('docs');
+
+const groups = entries
+  .map((entry) => ({
+    title: entry.data.section ?? 'Docs',
+    slug: entry.slug,
+    label: entry.data.title,
+    order: entry.data.order ?? 999,
+  }))
+  .reduce((acc, entry) => {
+    acc[entry.title] ||= [];
+    acc[entry.title].push(entry);
+    return acc;
+  }, /** @type {Record<string, {title:string;slug:string;label:string;order:number}[]>} */ ({}));
+
+const sidebar = Object.entries(groups)
+  .map(([title, items]) => ({
+    title,
+    items: items.sort((a, b) => a.order - b.order),
+  }))
+  .sort((a, b) => {
+    if (a.title === 'Getting Started') return -1;
+    if (b.title === 'Getting Started') return 1;
+    return a.title.localeCompare(b.title);
+  });
+
+const sidebarWithPrimitives = sidebar.map((group) => {
+  if (group.title !== 'Getting Started') return group;
+  return {
+    ...group,
+    items: [
+      ...group.items,
+      { title: 'Getting Started', slug: 'primitives', label: 'Primitives', order: 2 },
+    ].sort((a, b) => a.order - b.order),
+  };
+});
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="docs-shell" aria-label="Documentation">
+    <div class="docs-layout">
+      <aside class="docs-sidebar" aria-label="Documentation navigation">
+        <div class="docs-sidebar-inner">
+          <p class="docs-sidebar-title">Documentation</p>
+          <nav class="docs-nav">
+            {
+              sidebarWithPrimitives.map((group) => (
+                <div class="docs-nav-group">
+                  <p class="docs-nav-heading">{group.title}</p>
+                  <ul class="docs-nav-list">
+                    {group.items.map((item) => {
+                      const href = item.slug === 'index' ? '/docs' : `/docs/${item.slug}`;
+                      const isActive = currentPath === href || (href === '/docs' && currentPath === '/docs/');
+                      return (
+                      <li>
+                        <a
+                          href={href}
+                          class:list={[
+                            'docs-nav-link',
+                            { 'is-active': isActive },
+                          ]}
+                        >
+                          {item.label}
+                        </a>
+                      </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ))
+            }
+          </nav>
+        </div>
+      </aside>
+
+      <article class="docs-content">
+        <slot />
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  const blocks = document.querySelectorAll('pre');
+
+  blocks.forEach((pre) => {
+    if (!(pre instanceof HTMLElement)) return;
+    if (pre.closest('.code-block')) return;
+    if (!pre.querySelector('code')) return;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'code-block';
+
+    const toolbar = document.createElement('div');
+    toolbar.className = 'code-toolbar';
+
+    const dots = document.createElement('div');
+    dots.className = 'code-dots';
+    ['dot-red', 'dot-yellow', 'dot-green'].forEach((dotClass) => {
+      const dot = document.createElement('span');
+      dot.className = `code-dot ${dotClass}`;
+      dots.appendChild(dot);
+    });
+
+    const button = document.createElement('button');
+    button.className = 'copy-btn';
+    button.type = 'button';
+    button.textContent = 'Copy';
+
+    toolbar.append(dots, button);
+
+    const body = document.createElement('div');
+    body.className = 'code-body';
+
+    const lines = document.createElement('div');
+    lines.className = 'code-lines';
+
+    const raw = pre.textContent || '';
+    const lineCount = raw.split('\n').length || 1;
+    const fragment = document.createDocumentFragment();
+    for (let i = 1; i <= lineCount; i += 1) {
+      const line = document.createElement('span');
+      line.textContent = String(i);
+      fragment.appendChild(line);
+    }
+    lines.appendChild(fragment);
+
+    pre.parentNode?.insertBefore(wrapper, pre);
+    wrapper.append(toolbar, body);
+    body.append(lines, pre);
+
+    button.addEventListener('click', async () => {
+      const value = pre.textContent?.trim() ?? '';
+      try {
+        await navigator.clipboard.writeText(value);
+        button.textContent = 'Copied';
+        window.setTimeout(() => {
+          button.textContent = 'Copy';
+        }, 1400);
+      } catch {
+        button.textContent = 'Failed';
+        window.setTimeout(() => {
+          button.textContent = 'Copy';
+        }, 1400);
+      }
+    });
+  });
+</script>
+
+<style>
+  .docs-shell {
+    padding-top: 140px;
+    padding-bottom: 88px;
+  }
+
+  .docs-layout {
+    width: min(1200px, 92vw);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(200px, 240px) minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .docs-sidebar {
+    position: sticky;
+    top: 112px;
+    align-self: start;
+    height: calc(100vh - 160px);
+  }
+
+  .docs-sidebar-inner {
+    border: 1px solid rgba(87, 83, 78, 0.6);
+    background: rgba(12, 10, 9, 0.7);
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: 0 24px 60px -40px rgba(0, 0, 0, 0.8);
+  }
+
+  .docs-sidebar-title {
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    font-size: 11px;
+    color: #a8a29e;
+    margin-bottom: 20px;
+  }
+
+  .docs-nav {
+    display: grid;
+    gap: 16px;
+  }
+
+  .docs-nav-heading {
+    font-size: 12px;
+    color: #d6d3d1;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-bottom: 8px;
+  }
+
+  .docs-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 4px;
+  }
+
+  .docs-nav-link {
+    display: block;
+    padding: 6px 10px;
+    border-radius: 12px;
+    color: #a8a29e;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    font-size: 14px;
+  }
+
+  .docs-nav-link:hover {
+    color: #fff;
+    background: rgba(28, 25, 23, 0.8);
+    border-color: rgba(120, 113, 108, 0.45);
+  }
+
+  .docs-nav-link.is-active {
+    color: #fff;
+    background: rgba(56, 189, 248, 0.16);
+    border-color: rgba(56, 189, 248, 0.4);
+    box-shadow: 0 18px 40px -30px rgba(56, 189, 248, 0.9);
+  }
+
+  .docs-content {
+    display: grid;
+    gap: 24px;
+    color: #d6d3d1;
+  }
+
+  .docs-content :global(h1) {
+    font-size: clamp(2.1rem, 3vw, 3rem);
+    color: #fff;
+    margin: 0 0 8px;
+  }
+
+  .docs-content :global(h2) {
+    font-size: 1.35rem;
+    color: #fff;
+    margin: 20px 0 10px;
+  }
+
+  .docs-content :global(p) {
+    margin: 0 0 10px;
+    line-height: 1.7;
+  }
+
+  .docs-content :global(ul) {
+    margin: 0 0 10px;
+    padding-left: 20px;
+    display: grid;
+    gap: 6px;
+  }
+
+  .docs-content :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 640px;
+  }
+
+  .docs-content :global(.table-wrap) {
+    overflow-x: auto;
+    border-radius: 18px;
+    border: 1px solid rgba(87, 83, 78, 0.5);
+    background: rgba(12, 10, 9, 0.7);
+  }
+
+  .docs-content :global(table thead th) {
+    text-align: left;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #a8a29e;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(87, 83, 78, 0.45);
+  }
+
+  .docs-content :global(table tbody td) {
+    padding: 14px 18px;
+    font-size: 14px;
+    color: #e7e5e4;
+    border-bottom: 1px solid rgba(63, 63, 70, 0.3);
+    vertical-align: top;
+  }
+
+  .docs-content :global(table tbody tr:last-child td) {
+    border-bottom: none;
+  }
+
+  .docs-content :global(:not(pre) > code) {
+    background: rgba(28, 25, 23, 0.8);
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 0.92em;
+  }
+
+  .docs-content :global(.code-block) {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(41, 37, 36, 0.8);
+    background: #151515;
+    box-shadow: 0 18px 40px -30px rgba(0, 0, 0, 0.7);
+  }
+
+  .docs-content :global(.code-block .code-toolbar) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 12px;
+    background: linear-gradient(180deg, #1a1a1a 0%, #141414 100%);
+    border-bottom: 1px solid rgba(41, 37, 36, 0.9);
+  }
+
+  .docs-content :global(.code-dots) {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .docs-content :global(.code-dot) {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+  }
+
+  .docs-content :global(.code-dot.dot-red) {
+    background: #ef4444;
+  }
+
+  .docs-content :global(.code-dot.dot-yellow) {
+    background: #f59e0b;
+  }
+
+  .docs-content :global(.code-dot.dot-green) {
+    background: #22c55e;
+  }
+
+  .docs-content :global(.code-body) {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .docs-content :global(.code-lines) {
+    padding: 14px 8px 16px;
+    border-right: 1px solid rgba(41, 37, 36, 0.9);
+    color: rgba(148, 163, 184, 0.5);
+    font-size: 11px;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: #111111;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Monaco,
+      Consolas, Liberation Mono, Courier New, monospace;
+  }
+
+  .docs-content :global(pre) {
+    border: none;
+    margin: 0;
+    overflow-x: auto;
+  }
+
+  .docs-content :global(pre.shiki) {
+    margin: 0;
+    padding: 14px 16px 16px;
+    font-size: 13px;
+    line-height: 1.7;
+    background: transparent !important;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Monaco,
+      Consolas, Liberation Mono, Courier New, monospace;
+  }
+
+  .docs-content :global(pre code) {
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Monaco,
+      Consolas, Liberation Mono, Courier New, monospace;
+    background: transparent !important;
+    padding: 0;
+  }
+
+  .docs-content :global(pre:not(.shiki)) {
+    padding: 14px 16px 16px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #e7e5e4;
+    background: transparent;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Monaco,
+      Consolas, Liberation Mono, Courier New, monospace;
+  }
+
+  .docs-content :global(pre.shiki span) {
+    color: inherit !important;
+  }
+
+  .docs-content :global(pre.shiki code) {
+    background: transparent;
+    padding: 0;
+  }
+
+  .docs-content :global(.doc-callout) {
+    padding: 18px 20px;
+    border-radius: 16px;
+    border: 1px solid rgba(87, 83, 78, 0.5);
+    background: rgba(12, 10, 9, 0.7);
+  }
+
+  .docs-content :global(.doc-callout.info) {
+    border-color: rgba(56, 189, 248, 0.4);
+    background: rgba(14, 23, 42, 0.6);
+  }
+
+  .docs-content :global(.doc-callout.warning) {
+    border-color: rgba(251, 191, 36, 0.45);
+    background: rgba(39, 29, 8, 0.6);
+  }
+
+  .docs-content :global(.copy-btn) {
+    border: 1px solid rgba(63, 63, 70, 0.7);
+    background: #1a1a1a;
+    color: #d6d3d1;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .docs-content :global(.copy-btn:hover) {
+    color: #fff;
+    border-color: rgba(148, 163, 184, 0.7);
+    background: #262626;
+  }
+
+  @media (max-width: 720px) {
+    .docs-content :global(.code-body) {
+      grid-template-columns: 1fr;
+    }
+
+    .docs-content :global(.code-lines) {
+      display: none;
+    }
+  }
+
+  .docs-content :global(.expressive-code) {
+    margin: 0;
+  }
+
+  @media (max-width: 960px) {
+    .docs-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .docs-sidebar {
+      position: static;
+      height: auto;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .docs-shell {
+      padding-top: 120px;
+    }
+
+    .docs-sidebar-inner {
+      padding: 16px;
+    }
+  }
+</style>
