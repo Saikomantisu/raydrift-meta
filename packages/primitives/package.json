@@ -1,5 +1,5 @@
 {
-  "name": "@raydrift-meta/primitives",
+  "name": "raydrift-meta",
   "version": "0.1.0",
   "private": false,
   "type": "module",
@@ -21,7 +21,9 @@
     "raydrift-meta": "./bin/raydrift-meta.cjs"
   },
   "devDependencies": {
-    "astro": "^5.17.1"
+    "@astrojs/check": "^0.9.6",
+    "astro": "^5.17.1",
+    "typescript": "^5.9.3"
   },
   "exports": {
     ".": "./src/index.ts",
@@ -37,6 +39,7 @@
     "access": "public"
   },
   "scripts": {
-    "prepublishOnly": "pnpm --filter @raydrift-meta/primitives typecheck"
+    "typecheck": "astro check && tsc --noEmit",
+    "prepublishOnly": "pnpm --filter raydrift-meta typecheck"
   }
 }

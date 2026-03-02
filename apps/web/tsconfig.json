@@ -17,14 +17,10 @@
       "@/types": ["src/types/index.ts"],
       "@/lib": ["src/lib/index.ts"],
 
-      "@raydrift-meta/primitives": ["../../packages/primitives/src/index.ts"],
-      "@raydrift-meta/primitives/seo": [
-        "../../packages/primitives/src/components/seo/index.ts"
-      ],
-      "@raydrift-meta/primitives/seo/*": [
-        "../../packages/primitives/src/components/seo/*"
-      ],
-      "@raydrift-meta/primitives/*": ["../../packages/primitives/src/*"]
+      "raydrift-meta": ["../../packages/primitives/src/index.ts"],
+      "raydrift-meta/seo": ["../../packages/primitives/src/components/seo/index.ts"],
+      "raydrift-meta/seo/*": ["../../packages/primitives/src/components/seo/*"],
+      "raydrift-meta/*": ["../../packages/primitives/src/*"]
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react"

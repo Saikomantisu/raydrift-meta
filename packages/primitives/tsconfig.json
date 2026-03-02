@@ -3,9 +3,13 @@
   "include": ["src/**/*"],
   "compilerOptions": {
     "allowJs": true,
+    "allowArbitraryExtensions": true,
     "types": ["astro/client"],
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM"],
+    "skipLibCheck": true,
     "jsx": "react-jsx",
     "jsxImportSource": "react"
   }
