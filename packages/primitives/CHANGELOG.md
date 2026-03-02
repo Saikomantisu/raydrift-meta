@@ -1,5 +1,11 @@
 # raydrift-meta
 
+## 0.2.2
+
+### Patch Changes
+
+- 26b80f9: updated workflow for github
+
 ## 0.2.1
 
 ### Patch Changes
