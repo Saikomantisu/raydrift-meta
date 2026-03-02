@@ -1,20 +1,24 @@
 ---
 import DocsContentLayout from '@/layouts/DocsContentLayout.astro';
-import { getEntryBySlug, getCollection } from 'astro:content';
+import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const entries = await getCollection('docs');
-  return entries.map((entry) => ({
-    params: { slug: entry.slug },
-    props: { slug: entry.slug },
-  })).filter((route) => route.params.slug !== 'index');
+  return entries
+    .filter((entry) => entry.slug !== 'index')
+    .map((entry) => ({
+      params: { slug: entry.slug },
+      props: { slug: entry.slug },
+    }));
 }
 
 const { slug } = Astro.props;
 if (slug === 'index') {
   return Astro.redirect('/docs');
 }
-const entry = await getEntryBySlug('docs', slug);
+
+const entries = await getCollection('docs');
+const entry = entries.find((item) => item.slug === slug);
 
 if (!entry) {
   return Astro.redirect('/docs');

@@ -11,18 +11,25 @@ const { title, description } = Astro.props;
 const currentPath = Astro.url.pathname;
 const entries = await getCollection('docs');
 
+type SidebarEntry = {
+  title: string;
+  slug: string;
+  label: string;
+  order: number;
+};
+
 const groups = entries
-  .map((entry) => ({
+  .map((entry): SidebarEntry => ({
     title: entry.data.section ?? 'Docs',
     slug: entry.slug,
     label: entry.data.title,
     order: entry.data.order ?? 999,
   }))
-  .reduce((acc, entry) => {
+  .reduce<Record<string, SidebarEntry[]>>((acc, entry) => {
     acc[entry.title] ||= [];
     acc[entry.title].push(entry);
     return acc;
-  }, /** @type {Record<string, {title:string;slug:string;label:string;order:number}[]>} */ ({}));
+  }, {});
 
 const sidebar = Object.entries(groups)
   .map(([title, items]) => ({

@@ -15,7 +15,7 @@ export const NAV_LINKS = [
   { label: 'Primitives', href: '/docs/primitives' },
   { label: 'Features', href: '/#features' },
   { label: 'Guides', href: '/docs' },
-  { label: 'GitHub', href: '#' },
+  { label: 'GitHub', href: 'https://github.com/Saikomantisu/raydrift-meta' },
 ] as const;
 
 export const FOOTER_LINK_GROUPS = [
@@ -32,7 +32,10 @@ export const FOOTER_LINK_GROUPS = [
     title: 'Resources',
     links: [
       { label: 'Documentation', href: '/docs' },
-      { label: 'GitHub Repository', href: '#' },
+      {
+        label: 'GitHub Repository',
+        href: 'https://github.com/Saikomantisu/raydrift-meta',
+      },
       { label: 'NPM Package', href: '#' },
       { label: 'Astro Integration', href: '#' },
     ],
@@ -41,12 +44,18 @@ export const FOOTER_LINK_GROUPS = [
     title: 'Community',
     links: [
       { label: 'Discord Server', href: '#' },
-      { label: 'GitHub Issues', href: '#' },
+      {
+        label: 'GitHub Issues',
+        href: 'https://github.com/Saikomantisu/raydrift-meta/issues',
+      },
     ],
   },
 ] as const;
 
 export const SOCIAL_LINKS = {
-  github: { href: '#', ariaLabel: 'GitHub' },
+  github: {
+    href: 'https://github.com/Saikomantisu/raydrift-meta',
+    ariaLabel: 'GitHub',
+  },
   discord: { href: '#', ariaLabel: 'Discord' },
 } as const;
