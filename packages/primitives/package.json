@@ -1,8 +1,22 @@
 {
   "name": "@raydrift-meta/primitives",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
+  "private": false,
   "type": "module",
+  "description": "SEO-first Astro components with Schema.org JSON-LD helpers",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Saikomantisu/raydrift-meta.git",
+    "directory": "packages/primitives"
+  },
+  "keywords": [
+    "astro",
+    "seo",
+    "schema.org",
+    "json-ld",
+    "meta-tags"
+  ],
   "bin": {
     "raydrift-meta": "./bin/raydrift-meta.cjs"
   },
@@ -13,5 +27,16 @@
     ".": "./src/index.ts",
     "./seo": "./src/components/seo/index.ts",
     "./seo/*": "./src/components/seo/*"
+  },
+  "files": [
+    "src/**",
+    "bin/**",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepublishOnly": "pnpm --filter @raydrift-meta/primitives typecheck"
   }
 }
