@@ -71,14 +71,7 @@ export function FeaturesSection() {
           variants={fastContainerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          className="grid gap-4 md:gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[240px_220px_180px]"
-          style={{
-            gridTemplateAreas: `
-              "seo      seo      article"
-              "faq      bread    article"
-              "custom   custom   custom"
-            `,
-          }}
+          className="grid gap-4 md:gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-[240px_220px_180px] lg:[grid-template-areas:'seo_seo_article'_'faq_bread_article'_'custom_custom_custom']"
         >
           {/* ── SEOHead ─ wide top-left ─────────────────────── */}
           <BentoCard

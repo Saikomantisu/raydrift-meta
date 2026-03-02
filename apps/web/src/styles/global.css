@@ -81,8 +81,12 @@ button:focus-visible,
   transition: transform 0.15s ease;
 }
 
-.skip-link:focus {
+.skip-link:focus-visible {
   transform: translateY(0);
+}
+
+.skip-link:focus:not(:focus-visible) {
+  transform: translateY(-150%);
 }
 
 *:-moz-focusring {
