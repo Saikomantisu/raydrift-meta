@@ -1,0 +1,255 @@
+---
+export interface Props {
+  tabs?: { label: string; active?: boolean }[];
+  lineNumbers?: number;
+  statusPills?: string[];
+}
+
+const {
+  tabs = [
+    { label: 'BaseLayout.astro', active: true },
+    { label: 'seo.config.ts', active: false },
+  ],
+
+  lineNumbers = 21,
+  
+  statusPills = ['SEO score: 100', 'A11y: AA', 'JS: 0kb'],
+} = Astro.props;
+
+const lines = Array.from({ length: lineNumbers }, (_, i) => i + 1);
+---
+
+<div
+  class="code-window w-full bg-stone-950/90 rounded-[28px] border border-stone-800 overflow-hidden shadow-[0_30px_80px_-40px_rgba(0,0,0,0.8)]"
+>
+  <div class="code-window-top">
+    <div class="code-titlebar">
+      <div class="code-dots" aria-hidden="true">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+      </div>
+      <div class="code-tabs" aria-label="Editor tabs">
+        {
+          tabs.map((tab) => (
+            <button
+              class:list={['code-tab', { 'is-active': tab.active }]}
+              type="button"
+            >
+              {tab.label}
+            </button>
+          ))
+        }
+      </div>
+      <div class="code-title-actions" aria-hidden="true"></div>
+    </div>
+  </div>
+  <div class="code-window-body">
+    <div class="code-gutter" aria-hidden="true">
+      {lines.map((n) => <span>{n}</span>)}
+    </div>
+    <pre
+      class="code-content"><code><span class="syntax-keyword">---</span>
+<span class="syntax-keyword">import</span> <span class="syntax-string">'@/styles/global.css'</span>;
+ <span class="syntax-keyword">import</span> <span class="syntax-string">SEOHead</span> <span class="syntax-keyword">from</span> <span class="syntax-string">'@raydrift-meta/primitives/seo/SEOHead.astro'</span>;
+
+<span class="syntax-keyword">export</span> <span class="syntax-keyword">interface</span> <span class="syntax-string">Props</span> <span class="syntax-tag">&#123;</span>
+  <span class="syntax-string">title</span><span class="syntax-tag">?:</span> <span class="syntax-string">string</span><span class="syntax-tag">;</span>
+  <span class="syntax-string">description</span><span class="syntax-tag">?:</span> <span class="syntax-string">string</span><span class="syntax-tag">;</span>
+<span class="syntax-tag">&#125;</span>
+
+ <span class="syntax-keyword">const</span> <span class="syntax-string">&#123; title = 'Raydrift Meta', description = '' &#125;</span> = <span class="syntax-string">Astro.props</span>;
+<span class="syntax-keyword">---</span>
+
+<span class="syntax-tag">&lt;html</span> <span class="syntax-attr">lang</span>=<span class="syntax-string">"en"</span><span class="syntax-tag">&gt;</span>
+  <span class="syntax-tag">&lt;head&gt;</span>
+    <span class="syntax-tag">&lt;SEOHead</span> <span class="syntax-attr">title</span>=<span class="syntax-string">&#123; title &#125;</span> <span class="syntax-attr">description</span>=<span class="syntax-string">&#123; description &#125;</span> <span class="syntax-tag">/&gt;</span>
+  <span class="syntax-tag">&lt;/head&gt;</span>
+  <span class="syntax-tag">&lt;body</span> <span class="syntax-attr">class</span>=<span class="syntax-string">"min-h-screen flex flex-col bg-stone-950"</span><span class="syntax-tag">&gt;</span>
+    <span class="syntax-tag">&lt;main</span><span class="syntax-tag">&gt;</span>
+      <span class="syntax-tag">&lt;slot</span> <span class="syntax-tag">/&gt;</span>
+    <span class="syntax-tag">&lt;/main&gt;</span>
+  <span class="syntax-tag">&lt;/body&gt;</span>
+<span class="syntax-tag">&lt;/html&gt;</span></code></pre>
+    <div class="code-status">
+      {statusPills.map((pill) => <span class="code-status-pill">{pill}</span>)}
+    </div>
+  </div>
+</div>
+
+<style>
+  .code-window {
+    position: relative;
+    isolation: isolate;
+    background: linear-gradient(
+      150deg,
+      rgba(18, 18, 20, 0.98),
+      rgba(10, 10, 12, 0.98)
+    );
+  }
+
+  .code-window::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 35%),
+      linear-gradient(
+        120deg,
+        rgba(56, 189, 248, 0.12),
+        transparent 55%,
+        rgba(244, 114, 182, 0.08)
+      );
+    opacity: 0.85;
+    pointer-events: none;
+  }
+
+  .code-window-top {
+    position: relative;
+    padding: 12px 16px 12px;
+    background: rgba(20, 20, 22, 0.92);
+    border-bottom: 1px solid rgba(63, 63, 70, 0.7);
+  }
+
+  .code-titlebar {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .code-dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background: rgba(26, 26, 29, 0.9);
+    border-radius: 999px;
+    border: 1px solid rgba(63, 63, 70, 0.7);
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.45);
+  }
+
+  .dot-red {
+    background: #f87171;
+  }
+
+  .dot-yellow {
+    background: #fbbf24;
+  }
+
+  .dot-green {
+    background: #4ade80;
+  }
+
+  .code-tabs {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .code-tab {
+    border: 1px solid rgba(63, 63, 70, 0.7);
+    background: rgba(22, 22, 25, 0.9);
+    color: #a1a1aa;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    transition: all 0.2s ease;
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+
+  .code-tab.is-active {
+    background: rgba(56, 189, 248, 0.15);
+    color: #e2e8f0;
+    box-shadow: 0 10px 20px -16px rgba(56, 189, 248, 0.6);
+    border-color: rgba(56, 189, 248, 0.45);
+  }
+
+  .code-title-actions {
+    width: 20px;
+    height: 20px;
+  }
+
+  .code-window-body {
+    position: relative;
+    padding: 18px 18px 16px;
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 16px;
+  }
+
+  .code-gutter {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 11px;
+    color: rgba(148, 163, 184, 0.65);
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    text-align: right;
+    padding-top: 2px;
+  }
+
+  .code-content {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 12px;
+    line-height: 1.75;
+    color: #e2e8f0;
+    margin: 0;
+    white-space: pre-wrap;
+  }
+
+  .code-status {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+    padding-top: 12px;
+    border-top: 1px solid rgba(63, 63, 70, 0.6);
+  }
+
+  .code-status-pill {
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(63, 63, 70, 0.6);
+    background: rgba(24, 24, 27, 0.8);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #e4e4e7;
+  }
+
+  @media (max-width: 720px) {
+    .code-titlebar {
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+    }
+
+    .code-title-actions {
+      display: none;
+    }
+
+    .code-window-body {
+      grid-template-columns: 1fr;
+    }
+
+    .code-gutter {
+      display: none;
+    }
+
+    .code-tabs {
+      gap: 8px;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+    }
+  }
+</style>

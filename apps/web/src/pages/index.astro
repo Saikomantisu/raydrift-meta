@@ -1,0 +1,510 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import {
+  AnimatedContainer,
+  AnimatedItem,
+  AnimatedScroll,
+} from '@/lib/animations';
+import { FeaturesSection, WhySection } from '@/components/sections';
+import { COMPANY_NAME, COMPANY_DESCRIPTION } from '@/constants';
+import ArticleSchema from '@raydrift-meta/primitives/seo/ArticleSchema.astro';
+---
+
+<BaseLayout
+  title={`SEO-First Astro Components - ${COMPANY_NAME}`}
+  description={COMPANY_DESCRIPTION}
+>
+  <ArticleSchema
+    slot="head"
+    headline="SEO-First Astro Components"
+    description={COMPANY_DESCRIPTION}
+    authorName="Raydrift Meta"
+    datePublished="2026-03-01"
+    dateModified="2026-03-01"
+    canonicalUrl="https://raydrift-meta.com"
+    publisherName={COMPANY_NAME}
+    publisherLogo="https://raydrift-meta.com/og/logo.png"
+    image="https://raydrift-meta.com/og/cover.png"
+  />
+
+  <!-- Hero Section -->
+  <section
+    class="min-h-screen flex items-center py-24 bg-stone-950 relative overflow-hidden"
+    aria-labelledby="hero-title"
+  >
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="hero-grid"></div>
+      <div class="hero-diagonal"></div>
+      <div class="hero-frame"></div>
+    </div>
+
+    <div class="rd-container relative z-10 flex flex-col gap-16">
+      <AnimatedContainer client:load className="flex flex-col">
+        <AnimatedItem>
+          <h1
+            id="hero-title"
+            class="text-5xl md:text-7xl lg:text-8xl font-semibold tracking-tight leading-[0.95] text-white"
+          >
+            <span class="font-display block">Schema Elements</span>
+            <span class="font-display block text-stone-100">
+              <span class="relative inline-block">
+                <span class="relative z-10">for Astro</span>
+                <span class="hero-highlight" aria-hidden="true"></span>
+              </span>
+            </span>
+          </h1>
+        </AnimatedItem>
+      </AnimatedContainer>
+
+      <div class="grid lg:grid-cols-[1.2fr_0.8fr] gap-8 items-end">
+        <AnimatedContainer client:load className="flex flex-col">
+          <AnimatedItem>
+            <p
+              class="text-lg md:text-xl text-stone-400 max-w-xl leading-relaxed tracking-tight"
+            >
+              Raydrift Meta is a library of Schema Elements for Astro. Make your
+              website SEO friendly with structured data primitives like SEOHead,
+              ArticleSchema, Breadcrumb, and FAQSchema.
+            </p>
+          </AnimatedItem>
+        </AnimatedContainer>
+
+        <AnimatedContainer client:load className="flex flex-col lg:items-end">
+          <AnimatedItem>
+            <div class="flex flex-wrap gap-4">
+              <a
+                href="#features"
+                class="group inline-flex items-center gap-2 bg-stone-100 text-stone-950 px-8 py-4 rounded-2xl font-medium transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_-16px_rgba(255,255,255,0.4)]"
+              >
+                <span>Explore Primitives</span>
+                <svg
+                  class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-150"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+              </a>
+              <a
+                href="#features"
+                class="inline-flex items-center gap-2 border border-stone-700 text-stone-300 px-8 py-4 rounded-2xl font-medium hover:border-stone-500 hover:text-white hover:bg-stone-900/60 transition-all duration-150"
+              >
+                <span>Learn More</span>
+              </a>
+            </div>
+          </AnimatedItem>
+        </AnimatedContainer>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scroll Indicator -->
+  <AnimatedScroll client:load>
+    <div
+      class="absolute bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-3 text-stone-500 text-sm
+      md:left-12 md:translate-x-0 lg:left-24"
+      aria-hidden="true"
+    >
+      <span class="tracking-[0.15em] uppercase text-xs">Scroll to explore</span>
+      <svg
+        class="w-5 h-5"
+        data-hero-scroll-indicator
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      </svg>
+    </div>
+  </AnimatedScroll>
+
+  <style>
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(
+          to right,
+          rgba(120, 120, 120, 0.18) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          to bottom,
+          rgba(120, 120, 120, 0.18) 1px,
+          transparent 1px
+        );
+      background-size: 56px 56px;
+      opacity: 0.35;
+      mask-image: radial-gradient(
+        circle at 25% 20%,
+        rgba(0, 0, 0, 0.9) 0%,
+        rgba(0, 0, 0, 0.6) 38%,
+        transparent 70%
+      );
+    }
+
+    .hero-diagonal {
+      position: absolute;
+      width: 140%;
+      height: 1px;
+      left: -20%;
+      top: 55%;
+      background: rgba(87, 83, 78, 0.8);
+      transform: rotate(-6deg);
+    }
+
+    .hero-frame {
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(87, 83, 78, 0.35);
+      border-radius: 32px;
+      opacity: 0.6;
+    }
+
+    .hero-highlight {
+      position: absolute;
+      left: -0.15em;
+      right: -0.15em;
+      bottom: 0.08em;
+      height: 0.32em;
+      background: rgba(251, 191, 36, 0.2);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      transform: rotate(-1.5deg);
+      border-radius: 999px;
+    }
+
+    .hero-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(251, 191, 36, 0.8);
+      box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.12);
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    .hero-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(87, 83, 78, 0.7);
+      background: rgba(28, 25, 23, 0.6);
+      color: #d6d3d1;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+  </style>
+
+  <script>
+    import { animate } from 'framer-motion';
+
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+    if (reduceMotion) {
+      // Keep static visual state when reduced motion is requested.
+    } else {
+      const scrollIndicator = document.querySelector(
+        '[data-hero-scroll-indicator]',
+      );
+      if (scrollIndicator) {
+        animate(
+          scrollIndicator,
+          {
+            opacity: [0.5, 1, 0.5],
+            y: [0, 4, 0],
+          },
+          {
+            duration: 2,
+            ease: 'easeInOut',
+            repeat: Infinity,
+          },
+        );
+      }
+    }
+  </script>
+
+  <section id="main-content" class="bg-stone-950">
+    <!-- Features Section -->
+    <FeaturesSection client:visible />
+
+    <!-- Why Section -->
+    <WhySection />
+
+    <!-- CTA Section -->
+    <section
+      class="relative py-32 border-t border-stone-800 overflow-hidden"
+      aria-labelledby="cta-title"
+    >
+      <!-- Gradient accent bar at top -->
+      <div
+        class="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-cyan-400 via-fuchsia-400 to-yellow-400"
+      >
+      </div>
+
+      <div class="rd-container text-center relative">
+        <div class="max-w-3xl mx-auto">
+          <h2
+            id="cta-title"
+            class="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight"
+          >
+            Ready to build better?
+          </h2>
+          <p class="text-lg text-stone-400 leading-relaxed mb-10">
+            Start creating websites that rank higher, load faster, and work
+            better for everyone.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <a
+              href="#"
+              class="group inline-flex items-center gap-2 bg-white text-stone-950 px-8 py-4 rounded-xl font-medium hover:bg-stone-200 transition-all duration-150 hover:scale-[1.02] hover:shadow-lg hover:shadow-white/10"
+            >
+              <span>Get Started</span>
+            </a>
+            <a
+              href="#"
+              class="inline-flex items-center gap-2 border border-stone-700 text-stone-300 px-8 py-4 rounded-xl font-medium hover:border-stone-500 hover:text-white hover:bg-stone-900/50 transition-all duration-150"
+            >
+              <span>View on GitHub</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <style>
+    .why-window {
+      position: relative;
+      isolation: isolate;
+      background: linear-gradient(
+        150deg,
+        rgba(18, 18, 20, 0.98),
+        rgba(10, 10, 12, 0.98)
+      );
+    }
+
+    .why-window::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 35%),
+        linear-gradient(
+          120deg,
+          rgba(56, 189, 248, 0.12),
+          transparent 55%,
+          rgba(244, 114, 182, 0.08)
+        );
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    .why-window-top {
+      position: relative;
+      padding: 12px 16px 12px;
+      background: rgba(20, 20, 22, 0.92);
+      border-bottom: 1px solid rgba(63, 63, 70, 0.7);
+    }
+
+    .why-titlebar {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .why-dots {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      background: rgba(26, 26, 29, 0.9);
+      border-radius: 999px;
+      border: 1px solid rgba(63, 63, 70, 0.7);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.45);
+    }
+
+    .dot-red {
+      background: #f87171;
+    }
+
+    .dot-yellow {
+      background: #fbbf24;
+    }
+
+    .dot-green {
+      background: #4ade80;
+    }
+
+    .why-tabs {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .why-tab {
+      border: 1px solid rgba(63, 63, 70, 0.7);
+      background: rgba(22, 22, 25, 0.9);
+      color: #a1a1aa;
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      transition: all 0.2s ease;
+      text-transform: none;
+      letter-spacing: 0.02em;
+    }
+
+    .why-tab.is-active {
+      background: rgba(56, 189, 248, 0.15);
+      color: #e2e8f0;
+      box-shadow: 0 10px 20px -16px rgba(56, 189, 248, 0.6);
+      border-color: rgba(56, 189, 248, 0.45);
+    }
+
+    .why-title-actions {
+      width: 20px;
+      height: 20px;
+    }
+
+    .why-ribbon {
+      margin-top: 12px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: rgba(10, 10, 12, 0.65);
+      border: 1px solid rgba(63, 63, 70, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #a1a1aa;
+    }
+
+    .why-run {
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.18);
+      color: #bae6fd;
+      font-weight: 600;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+    }
+
+    .why-window-body {
+      position: relative;
+      padding: 18px 18px 16px;
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 16px;
+    }
+
+    .why-gutter {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 11px;
+      color: rgba(148, 163, 184, 0.65);
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      text-align: right;
+      padding-top: 2px;
+    }
+
+    .why-code {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      font-size: 12px;
+      line-height: 1.75;
+      color: #e2e8f0;
+      margin: 0;
+      white-space: pre-wrap;
+    }
+
+    .why-status {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+      padding-top: 12px;
+      border-top: 1px solid rgba(63, 63, 70, 0.6);
+    }
+
+    .why-status-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(63, 63, 70, 0.6);
+      background: rgba(24, 24, 27, 0.8);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #e4e4e7;
+    }
+
+    .why-card {
+      backdrop-filter: blur(6px);
+      transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .why-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(148, 163, 184, 0.5);
+    }
+
+    .why-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 720px) {
+      .why-titlebar {
+        grid-template-columns: auto 1fr;
+        gap: 10px;
+      }
+
+      .why-title-actions {
+        display: none;
+      }
+
+      .why-window-body {
+        grid-template-columns: 1fr;
+      }
+
+      .why-gutter {
+        display: none;
+      }
+
+      .why-tabs {
+        gap: 8px;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</BaseLayout>

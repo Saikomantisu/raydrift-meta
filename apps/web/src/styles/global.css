@@ -1,0 +1,160 @@
+@import 'tailwindcss';
+
+/* Space Grotesk - Variable Font */
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk-Variable.woff2') format('woff2-variations');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Cabinet Grotesk - Display Font for Logo */
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('/fonts/CabinetGrotesk-Variable.woff2') format('woff2-variations');
+  font-weight: 500 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Set Space Grotesk as default font */
+html {
+  font-family:
+    'Space Grotesk',
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  color: #e7e5e4;
+}
+
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.6);
+}
+
+/* Display font class */
+.font-display {
+  font-family: 'Cabinet Grotesk', 'Space Grotesk', system-ui, sans-serif;
+}
+
+.gradient-text-animated {
+  background-size: 200% 200%;
+}
+
+@layer utilities {
+  .rd-container {
+    width: 100%;
+    max-width: 100rem;
+    margin: 0 auto;
+    padding-inline: 70px;
+  }
+}
+
+@media (max-width: 768px) {
+  .rd-container {
+    padding-inline: 5%;
+  }
+}
+
+.skip-link {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 9999;
+  transform: translateY(-150%);
+  padding: 0.65rem 1rem;
+  border-radius: 999px;
+  background: #f5f5f4;
+  color: #0c0a09;
+  font-weight: 600;
+  box-shadow: 0 12px 24px -16px rgba(255, 255, 255, 0.5);
+  transition: transform 0.15s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+*:-moz-focusring {
+  outline: 2px solid #38bdf8;
+  outline-offset: 3px;
+}
+
+::selection {
+  background: rgba(250, 204, 21, 0.35);
+  color: #0c0a09;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Card hover glow effect */
+.card-glow-cyan:hover {
+  box-shadow: 0 0 30px -10px rgba(34, 211, 238, 0.3);
+}
+
+.card-glow-fuchsia:hover {
+  box-shadow: 0 0 30px -10px rgba(232, 121, 249, 0.3);
+}
+
+.card-glow-yellow:hover {
+  box-shadow: 0 0 30px -10px rgba(250, 204, 21, 0.3);
+}
+
+.card-glow-emerald:hover {
+  box-shadow: 0 0 30px -10px rgba(52, 211, 153, 0.3);
+}
+
+.card-glow-orange:hover {
+  box-shadow: 0 0 30px -10px rgba(251, 146, 60, 0.3);
+}
+
+.card-glow-purple:hover {
+  box-shadow: 0 0 30px -10px rgba(192, 132, 252, 0.3);
+}
+
+/* Syntax highlighting colors */
+.syntax-keyword {
+  color: #7dd3fc;
+}
+
+.syntax-string {
+  color: #fcd34d;
+}
+
+.syntax-tag {
+  color: #f472b6;
+}
+
+.syntax-comment {
+  color: #94a3b8;
+}
+
+.syntax-attr {
+  color: #6ee7b7;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

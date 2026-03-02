@@ -1,0 +1,117 @@
+---
+import { seoDefaults } from '../../seo.config';
+
+type SeoDefaults = {
+  siteName?: string;
+  description?: string;
+  canonicalBase?: string;
+  image?: {
+    url: string;
+    alt?: string;
+    width?: number;
+    height?: number;
+  };
+  locale?: string;
+  type?: 'website' | 'article';
+  twitter?: {
+    card?: 'summary' | 'summary_large_image';
+    site?: string;
+    creator?: string;
+  };
+  noIndex?: boolean;
+};
+
+export interface Props {
+  title: string;
+  description?: string;
+  canonicalUrl?: string;
+  siteName?: string;
+  image?: {
+    url: string;
+    alt?: string;
+    width?: number;
+    height?: number;
+  };
+  locale?: string;
+  type?: 'website' | 'article';
+  twitter?: {
+    card?: 'summary' | 'summary_large_image';
+    site?: string;
+    creator?: string;
+  };
+  noIndex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonicalUrl,
+  siteName,
+  image,
+  locale = 'en_US',
+  type = 'website',
+  twitter,
+  noIndex = false,
+} = Astro.props;
+
+const defaults: SeoDefaults = seoDefaults ?? {};
+
+const resolvedTitle = title;
+const resolvedDescription = description ?? defaults.description;
+const resolvedCanonicalUrl =
+  canonicalUrl ??
+  (defaults.canonicalBase
+    ? new URL(Astro.url.pathname, defaults.canonicalBase).toString()
+    : undefined);
+const resolvedSiteName = siteName ?? defaults.siteName;
+const resolvedImage = image ?? defaults.image;
+const resolvedLocale = locale ?? defaults.locale ?? 'en_US';
+const resolvedType = type ?? defaults.type ?? 'website';
+const resolvedTwitter = { ...defaults.twitter, ...twitter };
+const resolvedNoIndex = noIndex ?? defaults.noIndex ?? false;
+---
+
+<title>{resolvedTitle}</title>
+{resolvedDescription && <meta name="description" content={resolvedDescription} />}
+{resolvedCanonicalUrl && <link rel="canonical" href={resolvedCanonicalUrl} />}
+{resolvedNoIndex && <meta name="robots" content="noindex,nofollow" />}
+
+<meta property="og:title" content={resolvedTitle} />
+{resolvedDescription && (
+  <meta property="og:description" content={resolvedDescription} />
+)}
+{resolvedCanonicalUrl && <meta property="og:url" content={resolvedCanonicalUrl} />}
+{resolvedSiteName && <meta property="og:site_name" content={resolvedSiteName} />}
+<meta property="og:type" content={resolvedType} />
+<meta property="og:locale" content={resolvedLocale} />
+{resolvedImage?.url && <meta property="og:image" content={resolvedImage.url} />}
+{resolvedImage?.alt && <meta property="og:image:alt" content={resolvedImage.alt} />}
+{
+  resolvedImage?.width && (
+    <meta property="og:image:width" content={String(resolvedImage.width)} />
+  )
+}
+{
+  resolvedImage?.height && (
+    <meta property="og:image:height" content={String(resolvedImage.height)} />
+  )
+}
+
+<meta
+  name="twitter:card"
+  content={resolvedTwitter?.card ?? 'summary_large_image'}
+/>
+{resolvedTwitter?.site && (
+  <meta name="twitter:site" content={resolvedTwitter.site} />
+)}
+{resolvedTwitter?.creator && (
+  <meta name="twitter:creator" content={resolvedTwitter.creator} />
+)}
+<meta name="twitter:title" content={resolvedTitle} />
+{resolvedDescription && (
+  <meta name="twitter:description" content={resolvedDescription} />
+)}
+{resolvedImage?.url && <meta name="twitter:image" content={resolvedImage.url} />}
+{resolvedImage?.alt && (
+  <meta name="twitter:image:alt" content={resolvedImage.alt} />
+)}

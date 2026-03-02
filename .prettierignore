@@ -1,0 +1,19 @@
+# Ignore artifacts:
+dist
+build
+coverage
+node_modules
+
+# Ignore all HTML files:
+**/*.html
+
+# Ignore lock files:
+*.lock
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Misc:
+.DS_Store
+.env
+.env.*

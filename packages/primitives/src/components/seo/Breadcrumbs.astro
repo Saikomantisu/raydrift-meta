@@ -1,0 +1,49 @@
+---
+import { toJsonLd } from '../../lib/seo';
+
+export interface BreadcrumbItem {
+  label: string;
+  href: string;
+}
+
+export interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.label,
+    item: item.href,
+  })),
+};
+---
+
+<nav aria-label="Breadcrumb" class="text-sm text-stone-400">
+  <ol class="flex flex-wrap items-center gap-2">
+    {
+      items.map((item, index) => (
+        <li class="flex items-center gap-2">
+          <a
+            href={item.href}
+            class="hover:text-white transition-colors duration-150"
+          >
+            {item.label}
+          </a>
+          {index < items.length - 1 && (
+            <span aria-hidden="true" class="text-stone-600">
+              /
+            </span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<script type="application/ld+json" is:inline set:html={toJsonLd(schema)} />

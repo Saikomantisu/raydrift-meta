@@ -1,0 +1,54 @@
+---
+import { toJsonLd } from '../../lib/seo';
+
+export interface Props {
+  headline: string;
+  description?: string;
+  image?: string | string[];
+  authorName: string | string[];
+  datePublished: string;
+  dateModified?: string;
+  publisherName?: string;
+  publisherLogo?: string;
+  canonicalUrl?: string;
+}
+
+const {
+  headline,
+  description,
+  image,
+  authorName,
+  datePublished,
+  dateModified,
+  publisherName,
+  publisherLogo,
+  canonicalUrl,
+} = Astro.props;
+
+const authors = Array.isArray(authorName) ? authorName : [authorName];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline,
+  ...(description ? { description } : {}),
+  ...(image ? { image } : {}),
+  author: authors.map((name) => ({ '@type': 'Person', name })),
+  datePublished,
+  ...(dateModified ? { dateModified } : {}),
+  ...(canonicalUrl ? { mainEntityOfPage: canonicalUrl } : {}),
+  ...(publisherName
+    ? {
+        publisher: {
+          '@type': 'Organization',
+          name: publisherName,
+          ...(publisherLogo
+            ? { logo: { '@type': 'ImageObject', url: publisherLogo } }
+            : {}),
+        },
+      }
+    : {}),
+};
+---
+
+<script type="application/ld+json" is:inline set:html={toJsonLd(schema)} />

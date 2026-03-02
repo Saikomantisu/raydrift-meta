@@ -1,0 +1,17 @@
+{
+  "name": "@raydrift-meta/primitives",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "raydrift-meta": "./bin/raydrift-meta.cjs"
+  },
+  "devDependencies": {
+    "astro": "^5.17.1"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./seo": "./src/components/seo/index.ts",
+    "./seo/*": "./src/components/seo/*"
+  }
+}

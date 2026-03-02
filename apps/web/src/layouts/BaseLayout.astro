@@ -1,0 +1,36 @@
+---
+import '@/styles/global.css';
+import Navbar from '@/components/layout/Navbar.astro';
+import Footer from '@/components/layout/Footer.astro';
+import SEOHead from '@raydrift-meta/primitives/seo/SEOHead.astro';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Raydrift Meta',
+  description = '',
+} = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <SEOHead title={title} description={description} />
+    <slot name="head" />
+  </head>
+  <body class="min-h-screen flex flex-col bg-stone-950">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <Navbar />
+
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

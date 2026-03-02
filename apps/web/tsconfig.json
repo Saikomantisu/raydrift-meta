@@ -1,0 +1,32 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "src/**/*"],
+  "exclude": ["dist"],
+  "compilerOptions": {
+    "allowJs": true,
+    "baseUrl": ".",
+    "types": ["astro/client", "react", "react-dom"],
+    "paths": {
+      "@/*": ["src/*"],
+      "@/components/*": ["src/components/*"],
+      "@/lib/*": ["src/lib/*"],
+      "@/data/*": ["src/data/*"],
+      "@/types/*": ["src/types/*"],
+      "@/icons/*": ["src/icons/*"],
+      "@/icons": ["src/icons/index.tsx"],
+      "@/types": ["src/types/index.ts"],
+      "@/lib": ["src/lib/index.ts"],
+
+      "@raydrift-meta/primitives": ["../../packages/primitives/src/index.ts"],
+      "@raydrift-meta/primitives/seo": [
+        "../../packages/primitives/src/components/seo/index.ts"
+      ],
+      "@raydrift-meta/primitives/seo/*": [
+        "../../packages/primitives/src/components/seo/*"
+      ],
+      "@raydrift-meta/primitives/*": ["../../packages/primitives/src/*"]
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
+  }
+}
