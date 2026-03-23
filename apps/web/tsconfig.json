@@ -18,7 +18,9 @@
       "@/lib": ["src/lib/index.ts"],
 
       "raydrift-meta": ["../../packages/primitives/src/index.ts"],
-      "raydrift-meta/seo": ["../../packages/primitives/src/components/seo/index.ts"],
+      "raydrift-meta/seo": [
+        "../../packages/primitives/src/components/seo/index.ts"
+      ],
       "raydrift-meta/seo/*": ["../../packages/primitives/src/components/seo/*"],
       "raydrift-meta/*": ["../../packages/primitives/src/*"]
     },

@@ -127,13 +127,43 @@ export function FeaturesSection() {
               className="mt-auto rounded-xl border border-stone-800/60 bg-stone-950/80 p-4 font-mono text-[11px] leading-[1.6] text-stone-500"
               aria-hidden="true"
             >
-              <div><span className="text-yellow-400/70">{'<'}</span><span className="text-cyan-400/70">ArticleSchema</span></div>
-              <div>{'  '}<span className="text-purple-400/70">headline</span><span className="text-stone-600">=</span><span className="text-emerald-400/70">"My Post"</span></div>
-              <div>{'  '}<span className="text-purple-400/70">authorName</span><span className="text-stone-600">=</span><span className="text-emerald-400/70">"Jane"</span></div>
-              <div>{'  '}<span className="text-purple-400/70">datePublished</span><span className="text-stone-600">=</span><span className="text-emerald-400/70">"2026-03-01"</span></div>
-              <div>{'  '}<span className="text-purple-400/70">image</span><span className="text-stone-600">=</span><span className="text-emerald-400/70">"/cover.png"</span></div>
-              <div>{'  '}<span className="text-purple-400/70">publisherName</span><span className="text-stone-600">=</span><span className="text-emerald-400/70">"Acme"</span></div>
-              <div><span className="text-yellow-400/70">{'/>'}</span></div>
+              <div>
+                <span className="text-yellow-400/70">{'<'}</span>
+                <span className="text-cyan-400/70">ArticleSchema</span>
+              </div>
+              <div>
+                {'  '}
+                <span className="text-purple-400/70">headline</span>
+                <span className="text-stone-600">=</span>
+                <span className="text-emerald-400/70">"My Post"</span>
+              </div>
+              <div>
+                {'  '}
+                <span className="text-purple-400/70">authorName</span>
+                <span className="text-stone-600">=</span>
+                <span className="text-emerald-400/70">"Jane"</span>
+              </div>
+              <div>
+                {'  '}
+                <span className="text-purple-400/70">datePublished</span>
+                <span className="text-stone-600">=</span>
+                <span className="text-emerald-400/70">"2026-03-01"</span>
+              </div>
+              <div>
+                {'  '}
+                <span className="text-purple-400/70">image</span>
+                <span className="text-stone-600">=</span>
+                <span className="text-emerald-400/70">"/cover.png"</span>
+              </div>
+              <div>
+                {'  '}
+                <span className="text-purple-400/70">publisherName</span>
+                <span className="text-stone-600">=</span>
+                <span className="text-emerald-400/70">"Acme"</span>
+              </div>
+              <div>
+                <span className="text-yellow-400/70">{'/>'}</span>
+              </div>
             </div>
           </BentoCard>
 

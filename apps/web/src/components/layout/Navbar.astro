@@ -124,7 +124,7 @@ import { COMPANY_NAME, NAV_LINKS } from '@/constants';
 
   const navbarInner = document.getElementById('navbar-inner');
   const toggleBtn = document.getElementById(
-    'navbar-toggle'
+    'navbar-toggle',
   ) as HTMLButtonElement | null;
   const panel = document.getElementById('navbar-panel');
   const focusableSelector =
@@ -140,7 +140,7 @@ import { COMPANY_NAME, NAV_LINKS } from '@/constants';
     animate(
       navbarInner,
       { opacity: 1, y: 0 },
-      { duration: 0.5, ease: [0.4, 0, 0.2, 1] }
+      { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
     );
   }
 

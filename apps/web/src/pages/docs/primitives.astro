@@ -70,20 +70,26 @@ const primitives = [
   </section>
 
   <section class="primitives-grid" aria-label="Primitive list">
-    {primitives.map((item, index) => (
-      <a class="primitive-card" href={item.href} style={{ '--delay': `${index * 0.06}s` }}>
-        <div class="card-top">
-          <span class="card-index">0{index + 1}</span>
-          <span class="card-tag">{item.category}</span>
-        </div>
-        <h2 class="card-title">{item.title}</h2>
-        <p class="card-desc">{item.description}</p>
-        <div class="card-meta">
-          <span class="card-detail">{item.detail}</span>
-        </div>
-        <span class="card-link">Read docs →</span>
-      </a>
-    ))}
+    {
+      primitives.map((item, index) => (
+        <a
+          class="primitive-card"
+          href={item.href}
+          style={{ '--delay': `${index * 0.06}s` }}
+        >
+          <div class="card-top">
+            <span class="card-index">0{index + 1}</span>
+            <span class="card-tag">{item.category}</span>
+          </div>
+          <h2 class="card-title">{item.title}</h2>
+          <p class="card-desc">{item.description}</p>
+          <div class="card-meta">
+            <span class="card-detail">{item.detail}</span>
+          </div>
+          <span class="card-link">Read docs →</span>
+        </a>
+      ))
+    }
   </section>
 
   <style>
@@ -248,7 +254,10 @@ const primitives = [
       background: rgba(12, 10, 9, 0.65);
       text-decoration: none;
       color: inherit;
-      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
       position: relative;
       overflow: hidden;
       animation: rise 0.5s ease both;

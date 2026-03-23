@@ -25,17 +25,17 @@ import SEOHead from 'raydrift-meta/seo/SEOHead.astro';
 
 ## Props
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `title` | `string` | Required | Primary title used across HTML, OpenGraph, and Twitter. |
-| `description` | `string` | `seoDefaults.description` | Meta description and social descriptions. |
-| `canonicalUrl` | `string` | Derived from `canonicalBase` + route | Explicit canonical URL. |
-| `siteName` | `string` | `seoDefaults.siteName` | OpenGraph site name. |
-| `image` | `{ url: string; alt?: string; width?: number; height?: number }` | `seoDefaults.image` | OpenGraph + Twitter image. |
-| `locale` | `string` | `seoDefaults.locale ?? 'en_US'` | OpenGraph locale. |
-| `type` | `'website' | 'article'` | `seoDefaults.type ?? 'website'` | OpenGraph type. |
-| `twitter` | `{ card?: 'summary' \| 'summary_large_image'; site?: string; creator?: string }` | `seoDefaults.twitter` | Twitter card defaults. |
-| `noIndex` | `boolean` | `seoDefaults.noIndex ?? false` | Sets `robots` to `noindex,nofollow`. |
+| Prop           | Type                                                                             | Default                              | Description                                             |
+| -------------- | -------------------------------------------------------------------------------- | ------------------------------------ | ------------------------------------------------------- | --------------- |
+| `title`        | `string`                                                                         | Required                             | Primary title used across HTML, OpenGraph, and Twitter. |
+| `description`  | `string`                                                                         | `seoDefaults.description`            | Meta description and social descriptions.               |
+| `canonicalUrl` | `string`                                                                         | Derived from `canonicalBase` + route | Explicit canonical URL.                                 |
+| `siteName`     | `string`                                                                         | `seoDefaults.siteName`               | OpenGraph site name.                                    |
+| `image`        | `{ url: string; alt?: string; width?: number; height?: number }`                 | `seoDefaults.image`                  | OpenGraph + Twitter image.                              |
+| `locale`       | `string`                                                                         | `seoDefaults.locale ?? 'en_US'`      | OpenGraph locale.                                       |
+| `type`         | `'website'                                                                       | 'article'`                           | `seoDefaults.type ?? 'website'`                         | OpenGraph type. |
+| `twitter`      | `{ card?: 'summary' \| 'summary_large_image'; site?: string; creator?: string }` | `seoDefaults.twitter`                | Twitter card defaults.                                  |
+| `noIndex`      | `boolean`                                                                        | `seoDefaults.noIndex ?? false`       | Sets `robots` to `noindex,nofollow`.                    |
 
 ## Generated output
 
