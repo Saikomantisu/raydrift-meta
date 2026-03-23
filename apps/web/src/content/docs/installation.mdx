@@ -9,19 +9,357 @@ section: Getting Started
 
 Install the package, then scaffold the default configuration file. The init command creates `src/seo.config.ts` in your app.
 
-```bash filename="Terminal"
-npm install raydrift-meta
-pnpm add raydrift-meta
-yarn add raydrift-meta
-bun add raydrift-meta
-```
+## Install
 
-```bash filename="Terminal"
-npx raydrift-meta init
-pnpm dlx raydrift-meta init
-yarn dlx raydrift-meta init
-bunx raydrift-meta init
-```
+<div class="pm-tabs" data-tabs>
+  <div class="pm-tablist" role="tablist" aria-label="Package managers">
+    <button
+      class="pm-tab is-active"
+      type="button"
+      role="tab"
+      aria-selected="true"
+      aria-controls="pm-install-npm"
+      id="pm-install-tab-npm"
+    >
+      npm
+    </button>
+    <button
+      class="pm-tab"
+      type="button"
+      role="tab"
+      aria-selected="false"
+      aria-controls="pm-install-pnpm"
+      id="pm-install-tab-pnpm"
+    >
+      pnpm
+    </button>
+    <button
+      class="pm-tab"
+      type="button"
+      role="tab"
+      aria-selected="false"
+      aria-controls="pm-install-yarn"
+      id="pm-install-tab-yarn"
+    >
+      yarn
+    </button>
+    <button
+      class="pm-tab"
+      type="button"
+      role="tab"
+      aria-selected="false"
+      aria-controls="pm-install-bun"
+      id="pm-install-tab-bun"
+    >
+      bun
+    </button>
+  </div>
+  <div class="pm-panels">
+    <div
+      class="pm-panel is-active"
+      role="tabpanel"
+      id="pm-install-npm"
+      aria-labelledby="pm-install-tab-npm"
+    >
+      <button
+        class="pm-copy"
+        type="button"
+        aria-label="Copy npm install command"
+        data-copy
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M8 7a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V7z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+          <path
+            d="M5 17H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v1"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+        </svg>
+      </button>
+      <pre>
+        <code>npm install raydrift-meta</code>
+      </pre>
+    </div>
+    <div
+      class="pm-panel"
+      role="tabpanel"
+      id="pm-install-pnpm"
+      aria-labelledby="pm-install-tab-pnpm"
+      hidden
+    >
+      <button
+        class="pm-copy"
+        type="button"
+        aria-label="Copy pnpm install command"
+        data-copy
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M8 7a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V7z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+          <path
+            d="M5 17H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v1"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+        </svg>
+      </button>
+      <pre>
+        <code>pnpm add raydrift-meta</code>
+      </pre>
+    </div>
+    <div
+      class="pm-panel"
+      role="tabpanel"
+      id="pm-install-yarn"
+      aria-labelledby="pm-install-tab-yarn"
+      hidden
+    >
+      <button
+        class="pm-copy"
+        type="button"
+        aria-label="Copy yarn install command"
+        data-copy
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M8 7a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V7z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+          <path
+            d="M5 17H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v1"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+        </svg>
+      </button>
+      <pre>
+        <code>yarn add raydrift-meta</code>
+      </pre>
+    </div>
+    <div
+      class="pm-panel"
+      role="tabpanel"
+      id="pm-install-bun"
+      aria-labelledby="pm-install-tab-bun"
+      hidden
+    >
+      <button
+        class="pm-copy"
+        type="button"
+        aria-label="Copy bun install command"
+        data-copy
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M8 7a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V7z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+          <path
+            d="M5 17H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v1"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+        </svg>
+      </button>
+      <pre>
+        <code>bun add raydrift-meta</code>
+      </pre>
+    </div>
+  </div>
+</div>
+
+## Initialize
+
+<div class="pm-tabs" data-tabs>
+  <div class="pm-tablist" role="tablist" aria-label="Init command">
+    <button
+      class="pm-tab is-active"
+      type="button"
+      role="tab"
+      aria-selected="true"
+      aria-controls="pm-init-npm"
+      id="pm-init-tab-npm"
+    >
+      npm
+    </button>
+    <button
+      class="pm-tab"
+      type="button"
+      role="tab"
+      aria-selected="false"
+      aria-controls="pm-init-pnpm"
+      id="pm-init-tab-pnpm"
+    >
+      pnpm
+    </button>
+    <button
+      class="pm-tab"
+      type="button"
+      role="tab"
+      aria-selected="false"
+      aria-controls="pm-init-yarn"
+      id="pm-init-tab-yarn"
+    >
+      yarn
+    </button>
+    <button
+      class="pm-tab"
+      type="button"
+      role="tab"
+      aria-selected="false"
+      aria-controls="pm-init-bun"
+      id="pm-init-tab-bun"
+    >
+      bun
+    </button>
+  </div>
+  <div class="pm-panels">
+    <div
+      class="pm-panel is-active"
+      role="tabpanel"
+      id="pm-init-npm"
+      aria-labelledby="pm-init-tab-npm"
+    >
+      <button
+        class="pm-copy"
+        type="button"
+        aria-label="Copy npm init command"
+        data-copy
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M8 7a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V7z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+          <path
+            d="M5 17H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v1"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+        </svg>
+      </button>
+      <pre>
+        <code>npx raydrift-meta init</code>
+      </pre>
+    </div>
+    <div
+      class="pm-panel"
+      role="tabpanel"
+      id="pm-init-pnpm"
+      aria-labelledby="pm-init-tab-pnpm"
+      hidden
+    >
+      <button
+        class="pm-copy"
+        type="button"
+        aria-label="Copy pnpm init command"
+        data-copy
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M8 7a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V7z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+          <path
+            d="M5 17H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v1"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+        </svg>
+      </button>
+      <pre>
+        <code>pnpm dlx raydrift-meta init</code>
+      </pre>
+    </div>
+    <div
+      class="pm-panel"
+      role="tabpanel"
+      id="pm-init-yarn"
+      aria-labelledby="pm-init-tab-yarn"
+      hidden
+    >
+      <button
+        class="pm-copy"
+        type="button"
+        aria-label="Copy yarn init command"
+        data-copy
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M8 7a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V7z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+          <path
+            d="M5 17H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v1"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+        </svg>
+      </button>
+      <pre>
+        <code>yarn dlx raydrift-meta init</code>
+      </pre>
+    </div>
+    <div
+      class="pm-panel"
+      role="tabpanel"
+      id="pm-init-bun"
+      aria-labelledby="pm-init-tab-bun"
+      hidden
+    >
+      <button
+        class="pm-copy"
+        type="button"
+        aria-label="Copy bun init command"
+        data-copy
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M8 7a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V7z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+          <path
+            d="M5 17H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v1"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+        </svg>
+      </button>
+      <pre>
+        <code>bunx raydrift-meta init</code>
+      </pre>
+    </div>
+  </div>
+</div>
 
 If you skip the init command, create `src/seo.config.ts` manually and define your defaults.
 
