@@ -1,25 +1,6 @@
 ---
-import { seoDefaults } from '../../seo.config';
-
-type SeoDefaults = {
-  siteName?: string;
-  description?: string;
-  canonicalBase?: string;
-  image?: {
-    url: string;
-    alt?: string;
-    width?: number;
-    height?: number;
-  };
-  locale?: string;
-  type?: 'website' | 'article';
-  twitter?: {
-    card?: 'summary' | 'summary_large_image';
-    site?: string;
-    creator?: string;
-  };
-  noIndex?: boolean;
-};
+import { defaultSEO } from '../../seo.config';
+import type { SEODefaults } from '../../seo.config';
 
 export interface Props {
   title: string;
@@ -40,6 +21,15 @@ export interface Props {
     creator?: string;
   };
   noIndex?: boolean;
+  viewport?: string;
+  themeColor?: string;
+  keywords?: string[];
+  alternateLangs?: Array<{ lang: string; url: string }>;
+  prevUrl?: string;
+  nextUrl?: string;
+  publishedTime?: string;
+  modifiedTime?: string;
+  config?: SEODefaults;
 }
 
 const {
@@ -52,9 +42,18 @@ const {
   type = 'website',
   twitter,
   noIndex = false,
+  viewport,
+  themeColor,
+  keywords,
+  alternateLangs,
+  prevUrl,
+  nextUrl,
+  publishedTime,
+  modifiedTime,
+  config,
 } = Astro.props;
 
-const defaults: SeoDefaults = seoDefaults ?? {};
+const defaults: SEODefaults = config ?? defaultSEO;
 
 const resolvedTitle = title;
 const resolvedDescription = description ?? defaults.description;
@@ -69,12 +68,30 @@ const resolvedLocale = locale ?? defaults.locale ?? 'en_US';
 const resolvedType = type ?? defaults.type ?? 'website';
 const resolvedTwitter = { ...defaults.twitter, ...twitter };
 const resolvedNoIndex = noIndex ?? defaults.noIndex ?? false;
+const resolvedViewport = viewport ?? defaults.viewport ?? 'width=device-width,initial-scale=1';
+const resolvedThemeColor = themeColor ?? defaults.themeColor;
+const resolvedKeywords = keywords ?? defaults.keywords;
 ---
 
+<meta name="viewport" content={resolvedViewport} />
 <title>{resolvedTitle}</title>
 {resolvedDescription && <meta name="description" content={resolvedDescription} />}
 {resolvedCanonicalUrl && <link rel="canonical" href={resolvedCanonicalUrl} />}
 {resolvedNoIndex && <meta name="robots" content="noindex,nofollow" />}
+{resolvedThemeColor && <meta name="theme-color" content={resolvedThemeColor} />}
+{resolvedKeywords && resolvedKeywords.length > 0 && (
+  <meta name="keywords" content={resolvedKeywords.join(', ')} />
+)}
+
+{alternateLangs && alternateLangs.map((alt) => (
+  <link rel="alternate" hreflang={alt.lang} href={alt.url} />
+))}
+{alternateLangs && alternateLangs.length > 0 && resolvedCanonicalUrl && (
+  <link rel="alternate" hreflang="x-default" href={resolvedCanonicalUrl} />
+)}
+
+{prevUrl && <link rel="prev" href={prevUrl} />}
+{nextUrl && <link rel="next" href={nextUrl} />}
 
 <meta property="og:title" content={resolvedTitle} />
 {resolvedDescription && (
@@ -96,6 +113,13 @@ const resolvedNoIndex = noIndex ?? defaults.noIndex ?? false;
     <meta property="og:image:height" content={String(resolvedImage.height)} />
   )
 }
+
+{resolvedType === 'article' && publishedTime && (
+  <meta property="article:published_time" content={publishedTime} />
+)}
+{resolvedType === 'article' && modifiedTime && (
+  <meta property="article:modified_time" content={modifiedTime} />
+)}
 
 <meta
   name="twitter:card"

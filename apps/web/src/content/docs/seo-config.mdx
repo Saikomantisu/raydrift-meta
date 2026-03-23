@@ -1,0 +1,198 @@
+---
+title: Configuration
+description: Create and validate SEO configuration using createSEOConfig factory.
+order: 0
+section: SEO
+---
+
+# SEO Configuration
+
+Use `createSEOConfig()` to create validated, environment-aware SEO defaults. This factory function centralizes your SEO settings and catches configuration errors early.
+
+## Usage
+
+```ts filename="src/seo.config.ts"
+import { createSEOConfig } from 'raydrift-meta/seo';
+
+export const seoConfig = createSEOConfig({
+  siteName: 'My Site',
+  description: 'Default site description',
+  canonicalBase: 'https://example.com',
+  image: {
+    url: 'https://example.com/og-image.jpg',
+    alt: 'Site preview',
+    width: 1200,
+    height: 630,
+  },
+  locale: 'en_US',
+  twitter: {
+    card: 'summary_large_image',
+    site: '@username',
+  },
+});
+```
+
+```astro filename="BaseLayout.astro"
+---
+import { SEOHead } from 'raydrift-meta/seo';
+import { seoConfig } from '../seo.config';
+---
+
+<head>
+  <SEOHead
+    config={seoConfig}
+    title="Page Title"
+    description="Page-specific description"
+  />
+</head>
+```
+
+## createSEOConfig Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `siteName` | `string` | `undefined` | Default site name for OpenGraph |
+| `description` | `string` | `undefined` | Default meta description |
+| `canonicalBase` | `string` | `undefined` | Base URL for canonical links |
+| `image` | `{ url, alt?, width?, height? }` | `undefined` | Default OpenGraph/Twitter image |
+| `locale` | `string` | `'en_US'` | Default OpenGraph locale |
+| `type` | `'website' \| 'article'` | `'website'` | Default OpenGraph type |
+| `twitter` | `{ card?, site?, creator? }` | `undefined` | Default Twitter card settings |
+| `noIndex` | `boolean` | `env === 'development'` | Prevent indexing |
+| `viewport` | `string` | `undefined` | Default viewport content |
+| `themeColor` | `string` | `undefined` | Default theme color |
+| `keywords` | `string[]` | `undefined` | Default keywords |
+| `validate` | `boolean` | `true` | Enable validation |
+| `env` | `'development' \| 'production' \| 'auto'` | `'auto'` | Environment mode |
+
+## Environment-Based Configuration
+
+Automatically apply different settings for development vs production:
+
+```ts filename="src/seo.config.ts"
+import { createSEOConfig } from 'raydrift-meta/seo';
+
+export const seoConfig = createSEOConfig({
+  siteName: 'My Site',
+  canonicalBase: import.meta.env.SITE_URL,
+  env: 'auto', // Detects from import.meta.env
+});
+```
+
+**Environment Behavior:**
+
+| Environment | `noIndex` default | Detection |
+|-------------|-------------------|-----------|
+| `development` | `true` | `import.meta.env.DEV` or `MODE !== 'production'` |
+| `production` | `false` | `import.meta.env.PROD` or `MODE === 'production'` |
+
+Explicitly set `noIndex: false` to override:
+
+```ts
+export const seoConfig = createSEOConfig({
+  canonicalBase: 'https://staging.example.com',
+  env: 'development',
+  noIndex: false, // Allow indexing on staging
+});
+```
+
+## Validation
+
+By default, `createSEOConfig` validates your configuration and throws errors for invalid values:
+
+### URL Validation
+
+```ts
+createSEOConfig({
+  canonicalBase: 'not-a-url', // ❌ Throws Error
+});
+
+createSEOConfig({
+  canonicalBase: 'ftp://example.com', // ❌ Throws Error - invalid protocol
+});
+
+createSEOConfig({
+  canonicalBase: 'https://example.com', // ✅ Valid
+});
+```
+
+### Twitter Handle Validation
+
+```ts
+createSEOConfig({
+  twitter: {
+    site: 'username', // ❌ Throws Error - missing @
+  },
+});
+
+createSEOConfig({
+  twitter: {
+    site: '@username', // ✅ Valid
+  },
+});
+```
+
+### Disable Validation
+
+Skip validation for dynamic or user-provided values:
+
+```ts
+createSEOConfig({
+  canonicalBase: userProvidedUrl, // May be invalid
+  validate: false, // Skip validation
+});
+```
+
+## TypeScript Types
+
+```ts
+import type {
+  SEODefaults,        // Base configuration interface
+  SEOConfigOptions,   // Options passed to createSEOConfig
+  SEOConfig,          // Return type with metadata
+} from 'raydrift-meta/seo';
+```
+
+The returned `SEOConfig` includes metadata about validation:
+
+```ts
+const config = createSEOConfig({ siteName: 'My Site' });
+
+config._validated;    // boolean - was validation performed?
+config._environment;  // 'development' | 'production'
+```
+
+## Full Example
+
+```ts filename="src/seo.config.ts"
+import { createSEOConfig } from 'raydrift-meta/seo';
+
+export const seoConfig = createSEOConfig({
+  // Core settings
+  siteName: 'Raydrift Meta',
+  description: 'SEO-first Astro components',
+  canonicalBase: import.meta.env.SITE_URL,
+  
+  // Social image defaults
+  image: {
+    url: '/og-default.jpg',
+    alt: 'Raydrift Meta',
+    width: 1200,
+    height: 630,
+  },
+  
+  // Localization
+  locale: 'en_US',
+  
+  // Twitter defaults
+  twitter: {
+    card: 'summary_large_image',
+    site: '@raydriftmeta',
+    creator: '@author',
+  },
+  
+  // Environment & validation
+  env: 'auto',
+  validate: true,
+});
+```

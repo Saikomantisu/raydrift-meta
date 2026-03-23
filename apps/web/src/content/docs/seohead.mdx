@@ -11,11 +11,17 @@ Generate standard meta tags plus OpenGraph and Twitter metadata. Use it once per
 
 ## Usage
 
+### With Config Factory (Recommended)
+
 ```astro filename="BaseLayout.astro"
-import SEOHead from 'raydrift-meta/seo/SEOHead.astro';
+---
+import { SEOHead } from 'raydrift-meta/seo';
+import { seoConfig } from '../seo.config';
+---
 
 <head>
   <SEOHead
+    config={seoConfig}
     title="SEO-First Astro Components"
     description="Schema elements for modern sites"
     canonicalUrl="https://raydrift-meta.com/docs"
@@ -23,23 +29,52 @@ import SEOHead from 'raydrift-meta/seo/SEOHead.astro';
 </head>
 ```
 
+### Without Config (Props Only)
+
+```astro filename="BaseLayout.astro"
+---
+import { SEOHead } from 'raydrift-meta/seo';
+---
+
+<head>
+  <SEOHead
+    title="SEO-First Astro Components"
+    description="Schema elements for modern sites"
+    canonicalUrl="https://raydrift-meta.com/docs"
+    siteName="Raydrift Meta"
+  />
+</head>
+```
+
 ## Props
 
-| Prop           | Type                                                                             | Default                              | Description                                             |
-| -------------- | -------------------------------------------------------------------------------- | ------------------------------------ | ------------------------------------------------------- | --------------- |
-| `title`        | `string`                                                                         | Required                             | Primary title used across HTML, OpenGraph, and Twitter. |
-| `description`  | `string`                                                                         | `seoDefaults.description`            | Meta description and social descriptions.               |
-| `canonicalUrl` | `string`                                                                         | Derived from `canonicalBase` + route | Explicit canonical URL.                                 |
-| `siteName`     | `string`                                                                         | `seoDefaults.siteName`               | OpenGraph site name.                                    |
-| `image`        | `{ url: string; alt?: string; width?: number; height?: number }`                 | `seoDefaults.image`                  | OpenGraph + Twitter image.                              |
-| `locale`       | `string`                                                                         | `seoDefaults.locale ?? 'en_US'`      | OpenGraph locale.                                       |
-| `type`         | `'website'                                                                       | 'article'`                           | `seoDefaults.type ?? 'website'`                         | OpenGraph type. |
-| `twitter`      | `{ card?: 'summary' \| 'summary_large_image'; site?: string; creator?: string }` | `seoDefaults.twitter`                | Twitter card defaults.                                  |
-| `noIndex`      | `boolean`                                                                        | `seoDefaults.noIndex ?? false`       | Sets `robots` to `noindex,nofollow`.                    |
+| Prop             | Type                                                                             | Default                              | Description                                              |
+| ---------------- | -------------------------------------------------------------------------------- | ------------------------------------ | -------------------------------------------------------- |
+| `title`          | `string`                                                                         | Required                             | Primary title used across HTML, OpenGraph, and Twitter.  |
+| `description`    | `string`                                                                         | `config.description`                 | Meta description and social descriptions.                |
+| `canonicalUrl`   | `string`                                                                         | Derived from `config.canonicalBase`  | Explicit canonical URL.                                  |
+| `siteName`       | `string`                                                                         | `config.siteName`                    | OpenGraph site name.                                     |
+| `image`          | `{ url: string; alt?: string; width?: number; height?: number }`                 | `config.image`                       | OpenGraph + Twitter image.                               |
+| `locale`         | `string`                                                                         | `config.locale \| 'en_US'`           | OpenGraph locale.                                        |
+| `type`           | `'website' \| 'article'`                                                         | `config.type \| 'website'`          | OpenGraph type.                                          |
+| `twitter`        | `{ card?: 'summary' \| 'summary_large_image'; site?: string; creator?: string }` | `config.twitter`                     | Twitter card defaults.                                   |
+| `noIndex`        | `boolean`                                                                        | `config.noIndex \| false`            | Sets `robots` to `noindex,nofollow`.                     |
+| `viewport`       | `string`                                                                         | `config.viewport \| 'width=device-width,initial-scale=1'` | Viewport meta tag content.                   |
+| `themeColor`     | `string`                                                                         | `config.themeColor`                  | Theme color for mobile browsers (`theme-color` meta).    |
+| `keywords`       | `string[]`                                                                       | `config.keywords`                    | Keywords meta tag (comma-separated when rendered).       |
+| `alternateLangs` | `Array<{ lang: string; url: string }>`                                           | `undefined`                          | Hreflang alternate links for multilingual sites.         |
+| `prevUrl`        | `string`                                                                         | `undefined`                          | Previous page URL for pagination (`rel="prev"`).         |
+| `nextUrl`        | `string`                                                                         | `undefined`                          | Next page URL for pagination (`rel="next"`).             |
+| `publishedTime`  | `string`                                                                         | `undefined`                          | Article published date (ISO 8601). Requires `type="article"`. |
+| `modifiedTime`   | `string`                                                                         | `undefined`                          | Article modified date (ISO 8601). Requires `type="article"`.  |
+| `config`         | `SEODefaults`                                                                    | `undefined`                          | Configuration object from `createSEOConfig()`.           |
 
 ## Generated output
 
 ```html filename="head"
+<!-- Viewport (always included) -->
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+
 <title>SEO-First Astro Components</title>
 <meta name="description" content="Schema elements for modern sites" />
 <link rel="canonical" href="https://raydrift-meta.com/docs" />
@@ -57,6 +92,130 @@ import SEOHead from 'raydrift-meta/seo/SEOHead.astro';
 <meta name="twitter:title" content="SEO-First Astro Components" />
 ```
 
+## Examples
+
+### With Config Factory
+
+```ts filename="src/seo.config.ts"
+import { createSEOConfig } from 'raydrift-meta/seo';
+
+export const seoConfig = createSEOConfig({
+  siteName: 'My Site',
+  canonicalBase: import.meta.env.SITE_URL,
+  image: {
+    url: '/og-default.jpg',
+    width: 1200,
+    height: 630,
+  },
+});
+```
+
+```astro filename="BaseLayout.astro"
+---
+import { SEOHead } from 'raydrift-meta/seo';
+import { seoConfig } from '../seo.config';
+---
+
+<head>
+  <SEOHead
+    config={seoConfig}
+    title="Home"
+    description="Welcome to my site"
+  />
+</head>
+```
+
+### Multilingual sites (hreflang)
+
+```astro filename="[lang]/blog.astro"
+<SEOHead
+  title="Blog"
+  canonicalUrl={`https://example.com/${lang}/blog`}
+  alternateLangs={[
+    { lang: 'en', url: 'https://example.com/en/blog' },
+    { lang: 'es', url: 'https://example.com/es/blog' },
+    { lang: 'fr', url: 'https://example.com/fr/blog' },
+  ]}
+/>
+```
+
+Generates:
+```html
+<link rel="alternate" hreflang="en" href="https://example.com/en/blog" />
+<link rel="alternate" hreflang="es" href="https://example.com/es/blog" />
+<link rel="alternate" hreflang="fr" href="https://example.com/fr/blog" />
+<link rel="alternate" hreflang="x-default" href="https://example.com/en/blog" />
+```
+
+### Paginated content
+
+```astro filename="blog/page/[page].astro"
+<SEOHead
+  title={`Blog - Page ${page}`}
+  canonicalUrl={`https://example.com/blog/page/${page}`}
+  prevUrl={page > 1 ? `https://example.com/blog/page/${page - 1}` : undefined}
+  nextUrl={page < totalPages ? `https://example.com/blog/page/${page + 1}` : undefined}
+/>
+```
+
+Generates:
+```html
+<link rel="prev" href="https://example.com/blog/page/2" />
+<link rel="next" href="https://example.com/blog/page/4" />
+```
+
+### Article with dates
+
+```astro filename="blog/[slug].astro"
+<SEOHead
+  title={article.title}
+  description={article.excerpt}
+  type="article"
+  publishedTime={article.publishedAt}
+  modifiedTime={article.updatedAt}
+  keywords={article.tags}
+/>
+```
+
+Generates:
+```html
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-01-15T10:00:00Z" />
+<meta property="article:modified_time" content="2024-03-20T14:30:00Z" />
+<meta name="keywords" content="astro, seo, meta tags" />
+```
+
+### Theme color
+
+```astro filename="BaseLayout.astro"
+<SEOHead
+  title="My App"
+  themeColor="#6366f1"
+/>
+```
+
+Generates:
+```html
+<meta name="theme-color" content="#6366f1" />
+```
+
+### Viewport customization
+
+```astro filename="BaseLayout.astro"
+<SEOHead
+  title="Mobile App"
+  viewport="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+/>
+```
+
 ## Notes
 
-- When `canonicalUrl` is not provided, the component builds one from `canonicalBase` and `Astro.url.pathname`. Set `canonicalBase` in your app to avoid empty canonical tags.
+- Pass a `config` from `createSEOConfig()` to centralize defaults. Props override config values.
+- When `canonicalUrl` is not provided and `config.canonicalBase` is set, the component builds the canonical URL from `canonicalBase + Astro.url.pathname`.
+- The `x-default` hreflang is automatically added when `alternateLangs` is provided and `canonicalUrl` is set.
+- `article:published_time` and `article:modified_time` are only rendered when `type="article"`.
+- Use `createSEOConfig({ env: 'auto' })` to automatically set `noIndex: true` in development.
+
+## See Also
+
+- [Configuration](/docs/seo-config) — `createSEOConfig()` factory function and validation
