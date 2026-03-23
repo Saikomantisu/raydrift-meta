@@ -1,5 +1,11 @@
 # raydrift-meta
 
+## 0.3.0
+
+### Minor Changes
+
+- d70cf86: remove github actions
+
 ## 0.2.2
 
 ### Patch Changes
